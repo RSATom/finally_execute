@@ -1,0 +1,40 @@
+//usage example
+
+#include <time.h>
+#include <stdio.h>
+#include <boost/bind.hpp>
+
+#include "finally_execute.h"
+
+FILE* foo()
+{
+    srand( (unsigned int)time( NULL ) );
+
+    FILE* f = fopen( "finally_execute.h", "rb");
+    if( f ) {
+        //prepare automatic file closing
+        finally_execute close_file = make_fin_exec( boost::bind(fclose, f) );
+
+        int r = rand();
+        if( r < (RAND_MAX/2) )
+            throw 0;
+
+        //cancel file closing
+        close_file.dismiss();
+        return f;
+    }
+    return 0;
+}
+
+int main()
+{
+    FILE* f = 0;
+    try {
+        f = foo();
+        if( f )
+            fclose(f);
+    } catch(...) {
+        return 1;
+    }
+    return 0;
+}

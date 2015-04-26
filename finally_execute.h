@@ -23,8 +23,7 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *******************************************************************************/
 
-#ifndef _FINALLY_EXECUTE_H_
-#define _FINALLY_EXECUTE_H_
+#pragma once
 
 class finally_execute_base
 {
@@ -61,5 +60,3 @@ make_fin_exec(const exec_type& exec)
 {
     return finally_execute_impl<exec_type>(exec);
 }
-
-#endif
